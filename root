@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akses Key System Final</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body,html{height:100%;width:100%;background:#1e1e2f;overflow-x:hidden;color:white;}
+.fade-in{animation:fadeIn 1s ease forwards;opacity:0;}
+@keyframes fadeIn{to{opacity:1;}}
+.fade-out{animation:fadeOut 0.5s ease forwards;opacity:1;}
+@keyframes fadeOut{to{opacity:0;}}
+.slide-up{animation:slideUp 0.8s ease forwards;opacity:0;transform:translateY(50px);}
+@keyframes slideUp{to{opacity:1;transform:translateY(0);}}
+.container{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;text-align:center;}
+h1{font-size:2rem;margin-bottom:1rem;color:#ff9500;text-shadow:0 0 15px rgba(255,149,0,0.7);}
+.google-btn{background:#4285F4;color:white;border:none;padding:12px 30px;font-size:18px;border-radius:12px;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,0.4);transition: all 0.4s ease;}
+.google-btn:hover{transform: scale(1.05);box-shadow:0 10px 25px rgba(0,0,0,0.6);}
+.spinner-container{display:none;margin-top:2rem;}
+.spinner{position: relative;width:80px;height:80px;margin:0 auto;}
+.spinner div{transform-origin: 40px 40px;position:absolute;width:10px;height:10px;border-radius:50%;top:35px;left:35px;animation:spinner 1.2s linear infinite;}
+.spinner div:nth-child(1){transform:rotate(0deg) translate(35px);animation-delay:-1.1s;background:#ff5f6d;}
+.spinner div:nth-child(2){transform:rotate(30deg) translate(35px);animation-delay:-1s;background:#ffc371;}
+.spinner div:nth-child(3){transform:rotate(60deg) translate(35px);animation-delay:-0.9s;background:#ff5f6d;}
+.spinner div:nth-child(4){transform:rotate(90deg) translate(35px);animation-delay:-0.8s;background:#ffc371;}
+.spinner div:nth-child(5){transform:rotate(120deg) translate(35px);animation-delay:-0.7s;background:#ff5f6d;}
+.spinner div:nth-child(6){transform:rotate(150deg) translate(35px);animation-delay:-0.6s;background:#ffc371;}
+.spinner div:nth-child(7){transform:rotate(180deg) translate(35px);animation-delay:-0.5s;background:#ff5f6d;}
+.spinner div:nth-child(8){transform:rotate(210deg) translate(35px);animation-delay:-0.4s;background:#ffc371;}
+.spinner div:nth-child(9){transform:rotate(240deg) translate(35px);animation-delay:-0.3s;background:#ff5f6d;}
+.spinner div:nth-child(10){transform:rotate(270deg) translate(35px);animation-delay:-0.2s;background:#ffc371;}
+.spinner div:nth-child(11){transform:rotate(300deg) translate(35px);animation-delay:-0.1s;background:#ff5f6d;}
+.spinner div:nth-child(12){transform:rotate(330deg) translate(35px);animation-delay:0s;background:#ffc371;}
+@keyframes spinner{0%,20%,80%,100%{opacity:0.2;}50%{opacity:1;}}
+.home-section{display:none;background:rgba(255,255,255,0.05);padding:30px;border-radius:25px;box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter: blur(12px);animation:slideUp 1s ease forwards;max-width:500px;margin:auto;}
+.btn-key{margin-top:15px;display:inline-block;padding:12px 30px;background:#ff9500;color:white;text-decoration:none;border-radius:15px;font-size:18px;box-shadow:0 5px 20px rgba(0,0,0,0.5);transition: all 0.3s ease;}
+.btn-key:hover{transform: scale(1.08) rotate(-1deg);box-shadow:0 15px 30px rgba(0,0,0,0.6);}
+.disabled{background:#666 !important;cursor:not-allowed;}
+#userInfo{margin-top:15px;font-size:16px;color:#fff;}
+.tagActive{font-size:14px;color:#00ffae;font-weight:bold;margin-left:10px;}
+.upgradeItem h3{margin:5px 0;color:#ffbc63;}
+.upgradeItem p{color:#fff;margin-bottom:8px;}
+.upgradeItem hr{border:0;border-bottom:1px solid rgba(255,255,255,0.2);margin:15px 0;}
+.reportBtn{margin:5px 5px 5px 0;background:#ff3b3b;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="container" id="login-container">
+<h1>Akses Key System Final</h1>
+<div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-login_uri="" data-auto_prompt="false" data-callback="handleCredentialResponse"></div>
+<div class="g_id_signin" data-type="standard"></div>
+</div>
+
+<!-- LOADING -->
+<div class="spinner-container" id="loading">
+<div class="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+<p>Sedang memproses akun...</p>
+</div>
+
+<!-- HOME DASHBOARD -->
+<div class="home-section" id="home">
+<h1>Verifikasi Key System Anda</h1>
+<a class="btn-key" href="https://lootdest.com/s?C0aWVJ01&did=9" target="_blank">LootLabs</a><br><br>
+<a class="btn-key disabled">Linkvertise (Beta)</a>
+
+<h2 style="margin-top:30px;">Pengaturan Akun</h2>
+<p id="userInfo"></p>
+<button class="google-btn" onclick="editName()">Edit Nama</button>
+<button class="google-btn" onclick="logout()">Logout</button>
+
+<!-- UPGRADE SYSTEM -->
+<h2 style="margin-top:30px;">Upgrade Sistem</h2>
+<div id="upgradeBox" style="margin-top:20px; padding:20px; background:rgba(255,255,255,0.07); border-radius:18px; backdrop-filter:blur(10px); text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.4);">
+<div class="upgradeItem"><h3>Free (Default)</h3><p>Mode gratis basic</p><button onclick="setUpgrade('free')" class="btn-key">Aktifkan</button><span id="tag-free" class="tagActive"></span><hr></div>
+<div class="upgradeItem"><h3>High – Rp 10.000</h3><p>Fitur: Anti-Lag</p><button onclick="buyUpgrade('high',10000)" class="btn-key">On / Off</button><span id="tag-high" class="tagActive"></span><hr></div>
+<div class="upgradeItem"><h3>Quality – Rp 50.000</h3><p>Fitur: Anti-Lag++ + Ganti Username Asli</p><button onclick="buyUpgrade('quality',50000)" class="btn-key">On / Off</button><span id="tag-quality" class="tagActive"></span><hr></div>
+<div class="upgradeItem"><h3>Pro Quality Max – Rp 100.000</h3><p>Unlock semua fitur + Proxy Anti-Lag Ultra + Bonus Diskon</p><button onclick="buyUpgrade('pro',100000)" class="btn-key">On / Off</button><span id="tag-pro" class="tagActive"></span></div>
+</div>
+
+<!-- REPORT SYSTEM -->
+<h2 style="margin-top:30px;">Report Pengguna</h2>
+<div id="reportBox">
+<button onclick="reportUser('user2@gmail.com','Kasar')" class="btn-key reportBtn">Kasar</button>
+<button onclick="reportUser('user2@gmail.com','Bully')" class="btn-key reportBtn">Bully</button>
+<button onclick="reportUser('user2@gmail.com','Spam')" class="btn-key reportBtn">Spam</button>
+<button onclick="reportUser('user2@gmail.com','Ancaman')" class="btn-key reportBtn">Ancaman</button>
+<button onclick="reportUser('user2@gmail.com','Lainnya')" class="btn-key reportBtn">Lainnya</button>
+</div>
+</div>
+
+<script>
+// ===== GOOGLE LOGIN =====
+function handleCredentialResponse(response){
+const jwt = response.credential;
+const payload = JSON.parse(atob(jwt.split('.')[1]));
+localStorage.setItem('user',JSON.stringify({name:payload.name,email:payload.email,picture:payload.picture,token:jwt}));
+showLoading();
+}
+function showLoading(){
+document.getElementById('login-container').classList.add('fade-out');
+setTimeout(()=>{
+document.getElementById('login-container').style.display='none';
+document.getElementById('loading').style.display='block';
+setTimeout(()=>{
+document.getElementById('loading').style.display='none';
+showHome();
+},2500);
+},500);
+}
+function showHome(){
+const user = JSON.parse(localStorage.getItem('user'));
+if(user){
+document.getElementById('userInfo').innerHTML = `Selamat datang, <strong>${user.name}</strong> (${user.email})`;
+}
+document.getElementById('home').style.display='block';
+}
+
+// ===== ACCOUNT SETTINGS =====
+function logout(){ localStorage.removeItem('user'); localStorage.removeItem('upgradeTier'); location.reload();}
+function editName(){const u=JSON.parse(localStorage.getItem('user'));let n=prompt("Masukkan nama baru:",u.name); if(n&&n.trim()!==""){u.name=n.trim();localStorage.setItem('user',JSON.stringify(u));showHome();}}
+
+// ===== UPGRADE SYSTEM =====
+window.addEventListener("load",()=>{const t=localStorage.getItem("upgradeTier")||"free"; updateTags(t);});
+function setUpgrade(t){localStorage.setItem("upgradeTier",t);updateTags(t);alert("Berhasil mengaktifkan versi GRATIS!");}
+function buyUpgrade(t,p){if(!confirm("Upgrade ke "+t.toUpperCase()+" seharga Rp"+p.toLocaleString()+"?\nPilih OK untuk melanjutkan pembayaran."))return; alert("Pembayaran Berhasil! Tier: "+t.toUpperCase());localStorage.setItem("upgradeTier",t);updateTags(t);}
+function updateTags(t){document.getElementById("tag-free").innerHTML="";document.getElementById("tag-high").innerHTML="";document.getElementById("tag-quality").innerHTML="";document.getElementById("tag-pro").innerHTML="";if(t==="free")document.getElementById("tag-free").innerHTML="(Aktif)";if(t==="high")document.getElementById("tag-high").innerHTML="(Aktif)";if(t==="quality")document.getElementById("tag-quality").innerHTML="(Aktif)";if(t==="pro")document.getElementById("tag-pro").innerHTML="(Aktif)";}
+
+// ===== REPORT & BAN SYSTEM =====
+function reportUser(targetUser,reason){
+const reportData={target:targetUser,reason:reason,time:Date.now()};
+localStorage.setItem(`report_${targetUser}`,JSON.stringify(reportData));
+localStorage.setItem(`ban_${targetUser}`,Date.now() + 24*60*60*1000);
+alert(`Laporan terkirim! User ${targetUser} diblokir 24 jam.`);
+}
+function checkBan(){
+const user = JSON.parse(localStorage.getItem('user'));
+if(!user)return;
+const banTime = localStorage.getItem(`ban_${user.email}`);
+if(!banTime)return;
+const remaining = banTime - Date.now();
+if(remaining>0){
+let hours=Math.floor(remaining/(1000*60*60));
+let minutes=Math.floor((remaining%(1000*60*60))/(1000*60));
+document.body.innerHTML=`<div style="text-align:center;padding-top:80px;color:white;">
+<h1>❌ Akun Anda Diblokir</h1>
+<p>Karena pelanggaran: Report pengguna lain.</p>
+<h2>⏳ Waktu tersisa: <br>${hours} jam ${minutes} menit</h2>
+<p>Akses akan kembali otomatis setelah 24 jam.</p></div>`;
+}else{localStorage.removeItem(`ban_${user.email}`);}
+}
+window.onload=function(){checkBan(); const user=localStorage.getItem('user'); if(user){document.getElementById('login-container').style.display='none'; showHome();}};
+
+</script>
+</body>
+</html>
